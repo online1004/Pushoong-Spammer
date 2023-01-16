@@ -3,11 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import time, os, requests
+import time, os, requests, random
 
 def CheckURL(userid):
         result = requests.get(f"https://pushoong.com/ask/{userid}")
-
         if result.status_code == 200:
             return True
         else:
@@ -16,6 +15,7 @@ def CheckURL(userid):
 def SpamPushoong(userid, msg, thread):
     options = Options()
     options.add_experimental_option("detach", True)
+    options.add_argument('--incognito')
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=options)
 
@@ -39,7 +39,7 @@ def main():
     thread = int(input("횟수를 입력하세요 : "))
     msg = input("메시지를 입력하세요 : ")
     print('=====================================')
-    
+
     if CheckURL(ids):
         SpamPushoong(ids, msg, thread)
     else:
